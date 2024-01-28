@@ -69,12 +69,12 @@ async function startApolloServer() {
     app.use(cookieParser());
     app.use(cors({
         origin:['https://studio.apollographql.com', 'http://localhost:3002', 'http://localhost:3000', 'http://localhost:8081', 'http://localhost:3002', 'http://contest-docker-app-env.eba-28x3mhfa.us-west-1.elasticbeanstalk.com'],
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'PATCH', 'PUT'],
         credentials:true,
     }));
     app.use('/graphql', cors({
         origin: ['http://localhost:3002', 'http://192.168.1.64:3002', 'http://localhost:3002', 'http://localhost:3000', 'http://localhost:8081', 'http://contest-docker-app-env.eba-28x3mhfa.us-west-1.elasticbeanstalk.com'],
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'PUT', 'PATCH'],
         credentials: true,
     }));
 
@@ -89,7 +89,7 @@ async function startApolloServer() {
     await apolloServer.start();
     apolloServer.applyMiddleware({ app: app, cors: {
         origin: ['https://studio.apollographql.com', 'http://localhost:3002', 'http://localhost:3000', 'http://localhost:8081', 'http://192.168.1.64:3002', 'http://contest-docker-app-env.eba-28x3mhfa.us-west-1.elasticbeanstalk.com'],
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'PUT', 'PATCH'],
         credentials: true,
     } });
 
