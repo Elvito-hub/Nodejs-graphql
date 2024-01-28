@@ -13,7 +13,7 @@ import { UserResolvers, UserTypedefs } from './graphql dataSources/Users';
 import { ContestResolvers, ContestTypedefs } from './graphql dataSources/Contests';
 import { UserContestResolvers, UserContestTypedefs } from './graphql dataSources/UserContest';
 import { UserContestRankingsResolvers, UserContestRankingsTypedefs } from './graphql dataSources/ContestRankings';
-import {ContentCommentsTypedefs, ContestCommentsResolvers} from './graphql dataSources/Contest comments';
+import { ContentCommentsTypedefs, ContestCommentsResolvers } from './graphql dataSources/Contest comments';
 
 import {
     FastSelectionPairResolvers, FastSelectionPairTypedefs,
@@ -68,7 +68,7 @@ async function startApolloServer() {
     // @ts-ignore
     app.use(cookieParser());
     app.use(cors({
-        origin:['https://studio.apollographql.com', 'http://192.168.1.64:3002', 'http://contest-docker-app-env.eba-28x3mhfa.us-west-1.elasticbeanstalk.com'],
+        origin:['https://studio.apollographql.com', 'http://192.168.1.64:3002', 'http://localhost:3002', 'http://contest-docker-app-env.eba-28x3mhfa.us-west-1.elasticbeanstalk.com'],
         methods: ['GET', 'POST'],
         credentials:true,
     }));
@@ -180,7 +180,6 @@ async function startApolloServer() {
             const youtubeUrl = req.query.url;
             const startSecond = req.query.start;
             const endSecond = req.query.end;
-
 
             // if (typeof youtubeUrl === 'string' && typeof startSecond === 'number' && typeof endSecond === 'number') {
             const s3url = await YoutubeChunkSetter(youtubeUrl, startSecond, endSecond);
@@ -396,7 +395,6 @@ async function startApolloServer() {
                 // Find the ContestComments document for the given contestId
                 let ContestComments = await contestComments.findOne({ contestId });
 
-
                 // If the ContestComments document doesn't exist, create a new one
                 if (!ContestComments) {
                     ContestComments = new contestComments({ contestId, comments: [] });
@@ -427,7 +425,7 @@ async function startApolloServer() {
                     message: 'contestcomment uploaded',
                     data: { ...newComment, isCurrentUser: true },
                 });
-                console.log('New comment added successfully!', newc.comments,authToken);
+                console.log('New comment added successfully!', newc.comments, authToken);
             } catch (error) {
                 res.status(409).json({ message: error });
             }
